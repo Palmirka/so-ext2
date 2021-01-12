@@ -1,0 +1,14 @@
+# Compiled languages
+*.o
+*.so
+*.a
+.*.d
+ext2fuse
+ext2test
+
+# Python
+*.pyc
+
+# Vim
+*.swp
+*~
