@@ -15,7 +15,7 @@ ext2test: LDLIBS += -lreadline
 ext2test.o: ext2test.c ext2fs.h ext2fs_defs.h
 
 grade:
-	exit 1
+	./grade.sh
 
 format:
 	clang-format -i *.c *.h

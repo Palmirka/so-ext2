@@ -93,7 +93,7 @@ static ext2_groupdesc_t *group_desc; /* block group descriptors in memory */
 
 /* Opens filesystem image file and initializes block buffers. */
 static int blk_init(const char *fspath) {
-  if ((fd_ext2 = open(fspath, O_RDWR)) < 0)
+  if ((fd_ext2 = open(fspath, O_RDONLY)) < 0)
     return errno;
 
   /* Initialize list structures. */
@@ -317,7 +317,7 @@ int ext2_lookup(uint32_t ino, const char *name, uint32_t *ino_p,
                 uint8_t *type_p) {
   int error;
 
-  if (name == NULL)
+  if (name == NULL || !strlen(name))
     return EINVAL;
 
   ext2_inode_t inode;

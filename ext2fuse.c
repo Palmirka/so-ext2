@@ -181,7 +181,10 @@ int main(int argc, char *argv[]) {
   char *mountpoint;
   int multithreaded, foreground, err = -1;
 
-  ext2_mount("debian9-ext2.img");
+  if ((err = ext2_mount("debian9-ext2.img"))) {
+    fprintf(stderr, "Cannot open 'debian9-ext2.img': %s!\n", strerror(err));
+    return EXIT_FAILURE;
+  }
 
   if (!fuse_parse_cmdline(&args, &mountpoint, &multithreaded, &foreground) &&
       (ch = fuse_mount(mountpoint, &args))) {
