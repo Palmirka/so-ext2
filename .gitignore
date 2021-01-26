@@ -8,9 +8,6 @@ ext2test
 ext2list
 listfs
 
-# Python
-*.pyc
-
 # Vim
 *.swp
 *~
