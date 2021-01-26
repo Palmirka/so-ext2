@@ -8,8 +8,9 @@ if [ -d "/__w" ]; then
 fi
 
 mkdir -p test
-(./ext2fuse test 2>/dev/null || echo "ext2fuse failed!")
-./listfs.py test > $IMAGE.user.log
+(./ext2fuse test || echo "ext2fuse failed!")&
+sleep 1 # TODO: how to correctly synchronize with ext2fuse ?
+./listfs test | sort > $IMAGE.user.log
 diff -U 0 $IMAGE.kern.log $IMAGE.user.log | \
   wdiff -d - | sed -e '1d;/^@@/d' > $IMAGE.log.diff
 if [ -s $IMAGE.log.diff ]; then
