@@ -5,6 +5,8 @@
 .*.d
 ext2fuse
 ext2test
+ext2list
+listfs
 
 # Python
 *.pyc
