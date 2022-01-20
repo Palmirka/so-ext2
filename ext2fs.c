@@ -117,14 +117,18 @@ static blk_t *blk_alloc(void) {
 
   /* Initially every empty block is on free list. */
   if (!TAILQ_EMPTY(&freelst)) {
+#ifdef STUDENT
     /* TODO */
+#endif /* !STUDENT */
     return blk;
   }
 
   /* Eventually free list will become exhausted.
    * Then we'll take the last recently used entry from LRU list. */
   if (!TAILQ_EMPTY(&lrulst)) {
+#ifdef STUDENT
     /* TODO */
+#endif /* !STUDENT */
     return blk;
   }
 
@@ -141,8 +145,9 @@ static blk_t *blk_get(uint32_t ino, uint32_t idx) {
   blk_t *blk = NULL;
 
   /* Locate a block in the buffer and return it if found. */
-
+#ifdef STUDENT
   /* TODO */
+#endif /* !STUDENT */
 
   long blkaddr = ext2_blkaddr_read(ino, idx);
   debug("ext2_blkaddr_read(%d, %d) -> %ld\n", ino, idx, blkaddr);
@@ -188,7 +193,9 @@ int ext2_block_used(uint32_t blkaddr) {
   if (blkaddr >= block_count)
     return EINVAL;
   int used = 0;
+#ifdef STUDENT
   /* TODO */
+#endif /* !STUDENT */
   return used;
 }
 
@@ -198,25 +205,31 @@ int ext2_inode_used(uint32_t ino) {
   if (!ino || ino >= inode_count)
     return EINVAL;
   int used = 0;
+#ifdef STUDENT
   /* TODO */
+#endif /* !STUDENT */
   return used;
 }
 
 /* Reads i-node identified by number `ino`.
  * Returns 0 on success. If i-node is not allocated returns ENOENT. */
 static int ext2_inode_read(off_t ino, ext2_inode_t *inode) {
+#ifdef STUDENT
   /* TODO */
   (void)ino;
   (void)inode;
   return ENOENT;
+#endif /* !STUDENT */
+  return 0;
 }
 
 /* Returns block pointer `blkidx` from block of `blkaddr` address. */
 static uint32_t ext2_blkptr_read(uint32_t blkaddr, uint32_t blkidx) {
+#ifdef STUDENT
   /* TODO */
   (void)blkaddr;
   (void)blkidx;
-
+#endif /* !STUDENT */
   return 0;
 }
 
@@ -231,11 +244,11 @@ long ext2_blkaddr_read(uint32_t ino, uint32_t blkidx) {
   if (ext2_inode_read(ino, &inode))
     return -1;
 
-  /* Read direct pointers or pointers from indirect blocks. */
-
+    /* Read direct pointers or pointers from indirect blocks. */
+#ifdef STUDENT
   /* TODO */
   (void)ext2_blkptr_read;
-
+#endif /* !STUDENT */
   return -1;
 }
 
@@ -245,6 +258,7 @@ long ext2_blkaddr_read(uint32_t ino, uint32_t blkidx) {
  *
  * WARNING: This function assumes that `ino` i-node pointer is valid! */
 int ext2_read(uint32_t ino, void *data, size_t pos, size_t len) {
+#ifdef STUDENT
   /* TODO */
   (void)ino;
   (void)data;
@@ -252,7 +266,7 @@ int ext2_read(uint32_t ino, void *data, size_t pos, size_t len) {
   (void)len;
   (void)blk_get;
   (void)blk_put;
-
+#endif /* !STUDENT */
   return EINVAL;
 }
 
@@ -264,11 +278,12 @@ int ext2_read(uint32_t ino, void *data, size_t pos, size_t len) {
 #define de_name_offset offsetof(ext2_dirent_t, de_name)
 
 int ext2_readdir(uint32_t ino, uint32_t *off_p, ext2_dirent_t *de) {
+#ifdef STUDENT
   /* TODO */
   (void)ino;
   (void)off_p;
   (void)de;
-
+#endif /* !STUDENT */
   return 0;
 }
 
@@ -282,12 +297,12 @@ int ext2_readlink(uint32_t ino, char *buf, size_t buflen) {
   if ((error = ext2_inode_read(ino, &inode)))
     return error;
 
-  /* Check if it's a symlink and read it. */
-
+    /* Check if it's a symlink and read it. */
+#ifdef STUDENT
   /* TODO */
   (void)buf;
   (void)buflen;
-
+#endif /* !STUDENT */
   return ENOTSUP;
 }
 
@@ -300,11 +315,11 @@ int ext2_stat(uint32_t ino, struct stat *st) {
   if ((error = ext2_inode_read(ino, &inode)))
     return error;
 
-  /* Convert the metadata! */
-
+    /* Convert the metadata! */
+#ifdef STUDENT
   /* TODO */
   (void)st;
-
+#endif /* !STUDENT */
   return ENOTSUP;
 }
 
@@ -324,9 +339,11 @@ int ext2_lookup(uint32_t ino, const char *name, uint32_t *ino_p,
   if ((error = ext2_inode_read(ino, &inode)))
     return error;
 
+#ifdef STUDENT
   /* TODO */
   (void)ino_p;
   (void)type_p;
+#endif /* !STUDENT */
 
   return ENOENT;
 }
@@ -366,9 +383,9 @@ int ext2_mount(const char *fspath) {
   if (sb.sb_inode_size != sizeof(ext2_inode_t))
     panic("The only i-node size supported is %d!", sizeof(ext2_inode_t));
 
-  /* Load interesting data from superblock into global variables.
-   * Read group descriptor table into memory. */
-
+    /* Load interesting data from superblock into global variables.
+     * Read group descriptor table into memory. */
+#ifdef STUDENT
   /* TODO */
   (void)inodes_per_group;
   (void)blocks_per_group;
@@ -377,6 +394,6 @@ int ext2_mount(const char *fspath) {
   (void)inode_count;
   (void)first_data_block;
   (void)group_desc;
-
+#endif /* !STUDENT */
   return ENOTSUP;
 }

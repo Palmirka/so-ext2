@@ -1,7 +1,8 @@
 CC = gcc -fsanitize=address -g
+CPPFLAGS += -DSTUDENT
 CFLAGS = -Og -Wall -Wextra -Werror
 
-all: ext2fuse ext2test ext2list listfs
+all: ext2test ext2list listfs
 
 ext2fs.o: ext2fs.c ext2fs.h ext2fs_defs.h
 md5c.o: md5c.c md5.h
