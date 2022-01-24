@@ -23,7 +23,7 @@ listfs: listfs.o md5c.o
 listfs.o: listfs.c md5.h
 
 grade:
-	./grade.sh
+	./grade.py
 
 format:
 	clang-format -i *.c *.h

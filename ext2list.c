@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "md5.h"
 #include "ext2fs.h"
@@ -77,11 +78,39 @@ static void listdir(const char *path, uint32_t ino) {
   }
 }
 
+static void count_used_inodes(void) {
+  unsigned used = 0;
+
+  for (uint32_t ino = 1;; ino++) {
+    int res = ext2_inode_used(ino);
+    if (res == EINVAL)
+      break;
+    used += res;
+  }
+
+  fprintf(stderr, "used inodes: %u\n", used);
+}
+
+static void count_used_blocks(void) {
+  unsigned used = 0;
+
+  for (uint32_t blk = 1;; blk++) {
+    int res = ext2_block_used(blk);
+    if (res == EINVAL)
+      break;
+    used += res;
+  }
+
+  fprintf(stderr, "used blocks: %u\n", used);
+}
+
 int main(void) {
   if (ext2_mount("debian9-ext2.img"))
     exit(EXIT_FAILURE);
 
   showfile(".", EXT2_ROOTINO);
   listdir(".", EXT2_ROOTINO);
+  count_used_blocks();
+  count_used_inodes();
   exit(EXIT_SUCCESS);
 }

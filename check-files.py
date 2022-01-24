@@ -6,6 +6,7 @@ import subprocess
 
 STUDENT_CODE = ['ext2fs.c']
 
+
 def remove_solution(path):
     drop = False
     lines = []
